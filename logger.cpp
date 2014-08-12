@@ -26,10 +26,22 @@
 #include "logger.hpp"
 #include "stdout_logger.hpp"
 #include <mapnik/utils.hpp>
+#include <mapnik/version.hpp>
 #include <map>
 
 using std::map;
 using std::string;
+
+#ifndef MAPNIK_MAJOR_VERSION
+#define MAPNIK_MAJOR_VERSION 2
+#endif
+#if MAPNIK_MAJOR_VERSION>2
+#define INSTANCE log::instance()
+#define FACTORY_INSTANCE logger_factory::instance()
+#else
+#define INSTANCE (*log::instance())
+#define FACTORY_INSTANCE (*logger_factory::instance())
+#endif
 
 namespace rendermq {
 
@@ -75,24 +87,24 @@ logger_factory::create(const boost::property_tree::ptree &conf) const
    return 0;
 }
    
-void log::finer(const boost::format &fmt)   { log::instance()->m_logger->log(log_level::finer,   fmt.str()); }
-void log::info(const boost::format &fmt)    { log::instance()->m_logger->log(log_level::info,    fmt.str()); }
-void log::debug(const boost::format &fmt)   { log::instance()->m_logger->log(log_level::debug,   fmt.str()); }
-void log::warning(const boost::format &fmt) { log::instance()->m_logger->log(log_level::warning, fmt.str()); }
-void log::error(const boost::format &fmt)   { log::instance()->m_logger->log(log_level::error,   fmt.str()); }
+void log::finer(const boost::format &fmt)   { INSTANCE.m_logger->log(log_level::finer,   fmt.str()); }
+void log::info(const boost::format &fmt)    { INSTANCE.m_logger->log(log_level::info,    fmt.str()); }
+void log::debug(const boost::format &fmt)   { INSTANCE.m_logger->log(log_level::debug,   fmt.str()); }
+void log::warning(const boost::format &fmt) { INSTANCE.m_logger->log(log_level::warning, fmt.str()); }
+void log::error(const boost::format &fmt)   { INSTANCE.m_logger->log(log_level::error,   fmt.str()); }
 
-void log::finer(const std::string &msg)   { log::instance()->m_logger->log(log_level::finer,   msg); }
-void log::info(const std::string &msg)    { log::instance()->m_logger->log(log_level::info,    msg); }
-void log::debug(const std::string &msg)   { log::instance()->m_logger->log(log_level::debug,   msg); }
-void log::warning(const std::string &msg) { log::instance()->m_logger->log(log_level::warning, msg); }
-void log::error(const std::string &msg)   { log::instance()->m_logger->log(log_level::error,   msg); }
+void log::finer(const std::string &msg)   { INSTANCE.m_logger->log(log_level::finer,   msg); }
+void log::info(const std::string &msg)    { INSTANCE.m_logger->log(log_level::info,    msg); }
+void log::debug(const std::string &msg)   { INSTANCE.m_logger->log(log_level::debug,   msg); }
+void log::warning(const std::string &msg) { INSTANCE.m_logger->log(log_level::warning, msg); }
+void log::error(const std::string &msg)   { INSTANCE.m_logger->log(log_level::error,   msg); }
 
 void log::configure(const boost::property_tree::ptree &conf) 
 {
    boost::scoped_ptr<logger> new_logger(create_logger(conf));
    if (new_logger) 
    {
-      instance()->m_logger.swap(new_logger);
+      INSTANCE.m_logger.swap(new_logger);
       finer("Logging reconfigured.");
    }
    else
@@ -108,12 +120,12 @@ log::log()
 
 bool register_logger(const string &type, logger_creator func)
 {
-   return logger_factory::instance()->add(type, func);
+   return FACTORY_INSTANCE.add(type, func);
 }
 
 logger *create_logger(const boost::property_tree::ptree &conf)
 {
-   return logger_factory::instance()->create(conf);
+   return FACTORY_INSTANCE.create(conf);
 }
 
 } // namespace rendermq
