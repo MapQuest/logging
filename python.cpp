@@ -60,7 +60,7 @@ void configure_from_dict(const dict &d) {
       ;
   }
 
-  rendermq::log::configure(pt);
+  logging::log::configure(pt);
 }
 
 void configure_from_file(const std::string &filename) {
@@ -68,7 +68,7 @@ void configure_from_file(const std::string &filename) {
    {
       boost::property_tree::ptree logging_config;
       boost::property_tree::read_ini(filename, logging_config);
-      rendermq::log::configure(logging_config);
+      logging::log::configure(logging_config);
    }
    catch (const std::exception &e)
    {
@@ -83,11 +83,11 @@ BOOST_PYTHON_MODULE(mq_logging)
 {
    // resolve the overloads - don't want to expose boost::format to python,
    // as it's already quite capable of doing its own string interpolation.
-   void (*finer)  (const string &) = &rendermq::log::finer;
-   void (*debug)  (const string &) = &rendermq::log::debug;
-   void (*info)   (const string &) = &rendermq::log::info;
-   void (*warning)(const string &) = &rendermq::log::warning;
-   void (*error)  (const string &) = &rendermq::log::error;
+   void (*finer)  (const string &) = &logging::log::finer;
+   void (*debug)  (const string &) = &logging::log::debug;
+   void (*info)   (const string &) = &logging::log::info;
+   void (*warning)(const string &) = &logging::log::warning;
+   void (*error)  (const string &) = &logging::log::error;
 
    // note we're not exposing log as a class - no need, since all the
    // access methods are static.

@@ -43,7 +43,7 @@ using std::string;
 #define FACTORY_INSTANCE (*logger_factory::instance())
 #endif
 
-namespace rendermq {
+namespace logging {
 
 logger::~logger() {}
 
@@ -128,4 +128,4 @@ logger *create_logger(const boost::property_tree::ptree &conf)
    return FACTORY_INSTANCE.create(conf);
 }
 
-} // namespace rendermq
+} // namespace logging

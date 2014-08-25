@@ -44,16 +44,16 @@ namespace pt = boost::property_tree;
 
 namespace {
 
-rendermq::logger *create_file_logger(const boost::property_tree::ptree &conf) 
+logging::logger *create_file_logger(const boost::property_tree::ptree &conf) 
 {
-   return new rendermq::file_logger(conf);
+   return new logging::file_logger(conf);
 }
 
-static const bool registered = rendermq::register_logger("file", create_file_logger);
+static const bool registered = logging::register_logger("file", create_file_logger);
 
 }
 
-namespace rendermq {
+namespace logging {
 
 file_logger::file_logger(const pt::ptree &conf)
    : m_log_fh(NULL)
@@ -149,4 +149,4 @@ file_logger::log(log_level::type level, const std::string &msg)
    fflush(m_log_fh);
 }
 
-} // namespace rendermq
+} // namespace logging

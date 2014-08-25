@@ -32,7 +32,7 @@
 #include <mapnik/utils.hpp>
 #include <string>
 
-namespace rendermq {
+namespace logging {
 
 namespace log_level {
 enum type 
@@ -98,15 +98,15 @@ bool register_logger(const std::string &type, logger_creator func);
 // the caller owns the returned pointer.
 logger *create_logger(const boost::property_tree::ptree &);
 
-} // namespace rendermq
+} // namespace logging
 
 #ifndef LOGGING_MACROS
 #define LOGGING_MACROS
 
 // for convenience, some macros to make logging prettier.
 #ifdef RENDERMQ_DEBUG
-#define LOG_FINER(x) ::rendermq::log::finer(x)
-#define LOG_DEBUG(x) ::rendermq::log::debug(x)
+#define LOG_FINER(x) ::logging::log::finer(x)
+#define LOG_DEBUG(x) ::logging::log::debug(x)
 #else /* RENDERMQ_DEBUG */
 // don't even generate code for debug logging if debug mode
 // isn't turned on...
@@ -114,9 +114,9 @@ logger *create_logger(const boost::property_tree::ptree &);
 #define LOG_DEBUG(x)
 #endif /* RENDERMQ_DEBUG */
 
-#define LOG_INFO(x) ::rendermq::log::info(x)
-#define LOG_WARNING(x) ::rendermq::log::warning(x)
-#define LOG_ERROR(x) ::rendermq::log::error(x)
+#define LOG_INFO(x) ::logging::log::info(x)
+#define LOG_WARNING(x) ::logging::log::warning(x)
+#define LOG_ERROR(x) ::logging::log::error(x)
 
 #endif /* LOGGING_MACROS */
 

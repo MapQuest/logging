@@ -34,16 +34,16 @@ namespace bt = boost::posix_time;
 
 namespace {
 
-rendermq::logger *create_stdout_logger(const boost::property_tree::ptree &) 
+logging::logger *create_stdout_logger(const boost::property_tree::ptree &) 
 {
-   return new rendermq::stdout_logger();
+   return new logging::stdout_logger();
 }
 
-static const bool registered = rendermq::register_logger("stdout", create_stdout_logger);
+static const bool registered = logging::register_logger("stdout", create_stdout_logger);
 
 }
 
-namespace rendermq {
+namespace logging {
 
 void
 stdout_logger::log(log_level::type level, const std::string &msg)
@@ -70,4 +70,4 @@ stdout_logger::~stdout_logger()
 {
 }
 
-} // namespace rendermq
+} // namespace logging

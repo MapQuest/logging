@@ -28,7 +28,7 @@
 
 #include "logger.hpp"
 
-namespace rendermq {
+namespace logging {
 
 /* this is the default logger, which just does the simplest thing
  * and sends everything to stdout, prefixed with the current time
@@ -42,6 +42,6 @@ public:
    virtual ~stdout_logger();
 };
 
-} // namespace rendermq
+} // namespace logging
 
 #endif /* LOGGING_STDOUT_LOGGER_HPP */

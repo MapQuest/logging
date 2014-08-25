@@ -28,7 +28,7 @@
 
 #include "logger.hpp"
 
-namespace rendermq {
+namespace logging {
 
 /* a useful little utility - a logger which outputs nothing.
  * this is useful as a sort of optional<logger> when it's 
@@ -43,6 +43,6 @@ public:
    virtual ~null_logger();
 };
 
-} // namespace rendermq
+} // namespace logging
 
 #endif /* LOGGING_NULL_LOGGER_HPP */

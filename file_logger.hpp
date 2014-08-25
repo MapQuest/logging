@@ -33,7 +33,7 @@
 #include <boost/thread/mutex.hpp>
 #include <cstdio>
 
-namespace rendermq {
+namespace logging {
 
 /* logs everything to a file.
  */
@@ -65,6 +65,6 @@ private:
    boost::mutex m_mutex;
 };
 
-} // namespace rendermq
+} // namespace logging
 
 #endif /* LOGGING_FILE_LOGGER_HPP */
