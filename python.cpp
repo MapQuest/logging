@@ -28,6 +28,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <string>
+#include <iostream>
 
 #include "logger.hpp"
 
