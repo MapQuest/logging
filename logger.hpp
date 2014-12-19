@@ -29,6 +29,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/format.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include <mapnik/utils.hpp>
 #include <string>
 
@@ -80,10 +82,14 @@ public:
    // to configure the log
    static void configure(const boost::property_tree::ptree &);
 
+   static std::string get_utc_offset_string();
+
    log();
 
 private:
    boost::scoped_ptr<logger> m_logger;
+
+   static boost::posix_time::time_duration get_utc_offset();
 };
 
 // factory function to create loggers. if you implement one of these, register

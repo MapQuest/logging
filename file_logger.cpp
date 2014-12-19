@@ -132,7 +132,7 @@ file_logger::log(log_level::type level, const std::string &msg)
       }
    }
 
-   ostr << now << " ";
+   ostr << now << log::get_utc_offset_string() << " ";
    if (level == log_level::finer) {
       ostr << "[FINER] ";
    } else if (level == log_level::debug) {

@@ -27,6 +27,7 @@
 #include "stdout_logger.hpp"
 #include <mapnik/utils.hpp>
 #include <mapnik/version.hpp>
+#include <boost/date_time/c_local_time_adjustor.hpp>
 #include <map>
 
 using std::map;
@@ -98,6 +99,30 @@ void log::info(const std::string &msg)    { INSTANCE.m_logger->log(log_level::in
 void log::debug(const std::string &msg)   { INSTANCE.m_logger->log(log_level::debug,   msg); }
 void log::warning(const std::string &msg) { INSTANCE.m_logger->log(log_level::warning, msg); }
 void log::error(const std::string &msg)   { INSTANCE.m_logger->log(log_level::error,   msg); }
+
+
+boost::posix_time::time_duration log::get_utc_offset()
+{
+  const boost::posix_time::ptime utc_now=
+    boost::posix_time::second_clock::universal_time();
+  const boost::posix_time::ptime now=
+    boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(utc_now);
+
+  return now - utc_now;
+}
+
+std::string log::get_utc_offset_string()
+{
+  std::stringstream out;
+
+  boost::posix_time::time_facet* tf = new boost::posix_time::time_facet();
+  tf->time_duration_format("%+%H:%M");
+  out.imbue(std::locale(out.getloc(), tf));
+  out << get_utc_offset();
+
+  return out.str();
+}
+
 
 void log::configure(const boost::property_tree::ptree &conf) 
 {

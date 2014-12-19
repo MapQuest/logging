@@ -49,7 +49,8 @@ void
 stdout_logger::log(log_level::type level, const std::string &msg)
 {
    ostringstream ostr;
-   ostr << bt::microsec_clock::local_time() << " ";
+   ostr << bt::microsec_clock::local_time() <<
+      log::get_utc_offset_string() << " ";
    if (level == log_level::finer) {
       ostr << "[FINER] ";
    } else if (level == log_level::debug) {
